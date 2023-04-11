@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "cd ./packages/preview && vite",
+    "build": "tsx ./scripts/build.ts",
+    "postinstall": "tsx ./scripts/postinstall.ts"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/lodash-es": "^4.17.7",
+    "@types/node": "^18.15.11",
+    "@types/resolve": "^1.20.2",
+    "decode-named-character-reference": "^1.0.2",
+    "fs-extra": "^11.1.1",
+    "lodash-es": "^4.17.21",
+    "mustache": "^4.2.0",
+    "resolve": "^1.22.2",
+    "tsx": "^3.12.6",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.0",
+    "vite-plugin-dts": "^2.2.0",
+    "vite-plugin-static-copy": "^0.13.1"
+  },
+  "dependencies": {
+    "bytemd": "^1.21.0"
+  }
+}
