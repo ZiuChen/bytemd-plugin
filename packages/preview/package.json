@@ -6,9 +6,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bytemd/plugin-frontmatter": "^1.20.2",
+    "@bytemd/plugin-highlight": "^1.20.2",
     "@bytemd/vue-next": "^1.21.0",
     "@ziuchen/bytemd-plugin-align": "workspace:^",
+    "@ziuchen/bytemd-plugin-highlight-theme": "workspace:^",
     "bytemd": "^1.21.0",
+    "highlight.js": "^11.7.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {

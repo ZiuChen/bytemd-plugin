@@ -1,11 +1,11 @@
 {
-  "name": "@ziuchen/bytemd-plugin-align",
+  "name": "@ziuchen/bytemd-plugin-highlight-theme",
   "version": "1.0.0",
-  "description": "ByteMD plugin to support align type",
+  "description": "ByteMD plugin to support custom code highlight theme",
   "repository": {
     "type": "git",
     "url": "https://github.com/ziuchen/bytemd-plugin.git",
-    "directory": "packages/bytemd-plugin-align"
+    "directory": "packages/bytemd-plugin-highlight-theme"
   },
   "license": "MIT",
   "author": "ZiuChen",
@@ -30,7 +30,10 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@bytemd/plugin-frontmatter": "^1.20.2",
+    "@bytemd/plugin-highlight": "^1.20.2"
+  },
   "devDependencies": {},
   "peerDependencies": {
     "bytemd": "^1.20.2"

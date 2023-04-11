@@ -1,6 +1,6 @@
 # @ziuchen/bytemd-plugin-
 
-[![npm](https://img.shields.io/npm/v/@bytemd/plugin-.svg)](https://www.npmjs.com/package/@ziuchen/bytemd-plugin-)
+[![npm](https://img.shields.io/npm/v/@ziuchen/bytemd-plugin-.svg)](https://www.npmjs.com/package/@ziuchen/bytemd-plugin-)
 
 
 
