@@ -7,7 +7,7 @@ export interface AlignPluginOptions {
 }
 
 /**
- * 对齐方式插件
+ * Align Type Plugin
  */
 export default function alignPlugin(options?: AlignPluginOptions): BytemdPlugin {
   const locale = { ...en, ...options?.locale } as typeof en
