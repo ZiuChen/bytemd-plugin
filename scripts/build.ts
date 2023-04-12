@@ -83,7 +83,10 @@ import { packages, packagesDir } from './const'
         plugins: [
           viteDts(),
           viteStaticCopy({
-            targets: [{ src: './LICENSE', dest: '.' }] // dest: relative to build.outDir
+            targets: [
+              { src: './README.md', dest: '.' },
+              { src: './LICENSE', dest: '.' }
+            ] // dest: relative to build.outDir
           })
         ]
       })

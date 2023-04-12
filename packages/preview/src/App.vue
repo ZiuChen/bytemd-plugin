@@ -10,14 +10,16 @@ import 'bytemd/dist/index.css'
 
 import frontmatterPlugin from '@bytemd/plugin-frontmatter'
 import highlightPlugin from '@bytemd/plugin-highlight'
-import alignPlugin from '@/bytemd-plugin-align/src'
-import highlightThemePlugin from '@/bytemd-plugin-highlight-theme/src'
+import alignPlugin from '~/bytemd-plugin-align/src'
+import highlightThemePlugin from '~/bytemd-plugin-highlight-theme/src'
+import hls from '@ziuchen/bytemd-plugin-highlight-theme/dist/highlights.json'
 
 const plugins = [
   frontmatterPlugin(),
   highlightPlugin(),
   alignPlugin(),
   highlightThemePlugin({
+    highlights: hls,
     defaultHighlight: 'github'
   })
 ]
