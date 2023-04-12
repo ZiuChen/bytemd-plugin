@@ -1,12 +1,23 @@
 import { packages, rootDir, packagesDir } from './const'
 import mustache from 'mustache'
-import { readFileSync, readJsonSync, writeFileSync, writeJsonSync, copyFileSync } from 'fs-extra'
+import {
+  readFileSync,
+  readJsonSync,
+  writeFileSync,
+  writeJsonSync,
+  copyFileSync,
+  existsSync
+} from 'fs-extra'
 import { join } from 'path'
 import { camelCase } from 'lodash-es'
 
 // add README.md for each plugin
 packages.forEach((p) => {
   const name = p.split('-').slice(2).join('-')
+
+  const isExist = existsSync(join(packagesDir, p, 'README.md'))
+  if (isExist) return
+
   const plainText = readFileSync(join(rootDir, 'scripts/plugin-template.md'), 'utf-8')
 
   const result = mustache.render(plainText, {

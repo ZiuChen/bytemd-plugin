@@ -4,7 +4,6 @@ import { readJson, readJsonSync, existsSync } from 'fs-extra'
 import { sync } from 'resolve'
 import { build, LibraryFormats } from 'vite'
 import viteDts from 'vite-plugin-dts'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 import { camelCase } from 'lodash-es'
 import { packages, packagesDir } from './const'
@@ -80,15 +79,7 @@ import { packages, packagesDir } from './const'
           }
         },
         resolve: { alias },
-        plugins: [
-          viteDts(),
-          viteStaticCopy({
-            targets: [
-              { src: './README.md', dest: '.' },
-              { src: './LICENSE', dest: '.' }
-            ] // dest: relative to build.outDir
-          })
-        ]
+        plugins: [viteDts()]
       })
     }
   }
