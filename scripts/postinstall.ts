@@ -22,29 +22,29 @@ packages.forEach((p) => {
   copyFileSync(join(rootDir, 'LICENSE'), join(packagesDir, p, 'LICENSE'))
 
   // package.json
-  const pkgPath = join(packagesDir, p, 'package.json')
-  const pkg = readJsonSync(pkgPath)
-  pkg.repository = {
-    type: 'git',
-    url: 'https://github.com/ZiuChen/bytemd-plugin.git',
-    directory: `packages/${p}`
-  }
+  // const pkgPath = join(packagesDir, p, 'package.json')
+  // const pkg = readJsonSync(pkgPath)
+  // pkg.repository = {
+  //   type: 'git',
+  //   url: 'https://github.com/ZiuChen/bytemd-plugin.git',
+  //   directory: `packages/${p}`
+  // }
 
-  pkg.types = './dist/index.d.ts'
-  pkg.module = './dist/index.mjs'
-  pkg.main = './dist/index.js'
-  pkg.unpkg = './dist/index.umd.js'
-  pkg.jsdelivr = './dist/index.umd.js'
+  // pkg.types = './dist/index.d.ts'
+  // pkg.module = './dist/index.mjs'
+  // pkg.main = './dist/index.js'
+  // pkg.unpkg = './dist/index.umd.js'
+  // pkg.jsdelivr = './dist/index.umd.js'
 
-  pkg.exports = {
-    '.': {
-      types: './dist/index.d.ts',
-      import: './dist/index.mjs',
-      require: './dist/index.js'
-    },
-    './locales/*': './locales/*'
-  }
-  pkg.files = ['dist', 'locales']
+  // pkg.exports = {
+  //   '.': {
+  //     types: './dist/index.d.ts',
+  //     import: './dist/index.mjs',
+  //     require: './dist/index.js'
+  //   },
+  //   './locales/*': './locales/*'
+  // }
+  // pkg.files = ['dist', 'locales']
 
-  writeJsonSync(pkgPath, pkg)
+  // writeJsonSync(pkgPath, pkg)
 })
