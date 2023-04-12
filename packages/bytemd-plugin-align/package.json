@@ -1,5 +1,6 @@
 {
   "name": "@ziuchen/bytemd-plugin-align",
+  "private": false,
   "version": "1.0.1",
   "description": "ByteMD plugin to support align type",
   "license": "MIT",

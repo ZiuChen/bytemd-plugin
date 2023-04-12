@@ -1,6 +1,7 @@
 {
   "name": "@ziuchen/bytemd-plugin-image-zoom",
-  "version": "1.0.0",
+  "private": false,
+  "version": "1.0.1",
   "description": "ByteMD plugin to support image zoom",
   "license": "MIT",
   "author": "ZiuChen",
