@@ -5,30 +5,23 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Editor } from '@bytemd/vue-next'
+import article from './article.md?raw'
 import 'bytemd/dist/index.css'
-import 'highlight.js/styles/default.css'
 
 import frontmatterPlugin from '@bytemd/plugin-frontmatter'
 import highlightPlugin from '@bytemd/plugin-highlight'
-
-import alignPlugin from '@ziuchen/bytemd-plugin-align'
-import zh1 from '@ziuchen/bytemd-plugin-align/locales/zh_Hans.json'
-
-import highlightThemePlugin from '@ziuchen/bytemd-plugin-highlight-theme'
-import zh2 from '@ziuchen/bytemd-plugin-highlight-theme/locales/zh_Hans.json'
+import alignPlugin from '@/bytemd-plugin-align/src'
+import highlightThemePlugin from '@/bytemd-plugin-highlight-theme/src'
 
 const plugins = [
   frontmatterPlugin(),
   highlightPlugin(),
-  alignPlugin({
-    locale: zh1
-  }),
+  alignPlugin(),
   highlightThemePlugin({
-    locale: zh2,
     defaultHighlight: 'github'
   })
 ]
-const code = ref('# Hello, Bytemd!\n')
+const code = ref(article)
 
 function handleCodeChange(value: string) {
   code.value = value
