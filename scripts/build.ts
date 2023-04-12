@@ -10,8 +10,6 @@ import { camelCase } from 'lodash-es'
 import { packages, packagesDir } from './const'
 ;(async () => {
   for (let name of packages) {
-    if (name === 'preview') return
-
     console.log('[building]', name)
 
     const root = resolve(packagesDir, name)
@@ -85,7 +83,10 @@ import { packages, packagesDir } from './const'
         plugins: [
           viteDts(),
           viteStaticCopy({
-            targets: [{ src: './README.md', dest: '.' }] // dest: relative to build.outDir
+            targets: [
+              { src: './README.md', dest: '.' },
+              { src: './LICENSE', dest: '.' }
+            ] // dest: relative to build.outDir
           })
         ]
       })

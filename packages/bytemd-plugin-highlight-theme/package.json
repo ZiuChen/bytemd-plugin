@@ -2,27 +2,26 @@
   "name": "@ziuchen/bytemd-plugin-highlight-theme",
   "version": "1.0.0",
   "description": "ByteMD plugin to support custom code highlight theme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ziuchen/bytemd-plugin.git",
-    "directory": "packages/bytemd-plugin-highlight-theme"
-  },
   "license": "MIT",
   "author": "ZiuChen",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZiuChen/bytemd-plugin.git",
+    "directory": "packages/bytemd-plugin-highlight-theme"
+  },
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "main": "./dist/index.js",
+  "unpkg": "./dist/index.umd.js",
+  "jsdelivr": "./dist/index.umd.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./locales/*": "./locales/*",
-    "./lib/locales/*": "./locales/*"
+    "./locales/*": "./locales/*"
   },
-  "main": "./dist/index.js",
-  "jsdelivr": "./dist/index.umd.js",
-  "unpkg": "./dist/index.umd.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "locales"
@@ -34,7 +33,6 @@
     "@bytemd/plugin-frontmatter": "^1.20.2",
     "@bytemd/plugin-highlight": "^1.20.2"
   },
-  "devDependencies": {},
   "peerDependencies": {
     "bytemd": "^1.20.2"
   }
