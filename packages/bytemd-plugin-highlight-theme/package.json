@@ -1,6 +1,6 @@
 {
   "name": "@ziuchen/bytemd-plugin-highlight-theme",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ByteMD plugin to support custom code highlight theme",
   "license": "MIT",
   "author": "ZiuChen",
@@ -20,7 +20,8 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./locales/*": "./locales/*"
+    "./locales/*": "./locales/*",
+    "./dist/*": "./dist/*"
   },
   "files": [
     "dist",

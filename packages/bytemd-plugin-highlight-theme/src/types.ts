@@ -1,8 +1,12 @@
+import _highlights from '../public/highlights.json'
+
 interface IPosition {
   line: number
   column: number
   offset: number
 }
+
+export type DefaultHighlights = typeof _highlights
 
 export interface IBasicInfo {
   /**
@@ -28,7 +32,7 @@ export interface HighlightThemeOptions {
   /**
    * Highlight theme map
    */
-  highlights?: Record<string, string>
+  highlights: Record<string, string>
   /**
    * Locale
    */

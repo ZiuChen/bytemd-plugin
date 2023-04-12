@@ -10,12 +10,15 @@ ByteMD plugin to support custom code highlight theme
 
 import { Editor } from 'bytemd'
 import highlightTheme from '@ziuchen/bytemd-plugin-highlight-theme'
+import hls from '@ziuchen/bytemd-plugin-highlight-theme/dist/highlights.json'
 
 new Editor({
   target: document.body,
   props: {
     plugins: [
-      highlightTheme(),
+      highlightThemePlugin({
+        highlights: hls,
+      }),
       // ... other plugins
     ],
   },

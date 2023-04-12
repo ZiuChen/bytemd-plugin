@@ -1,7 +1,6 @@
 import type { BytemdPlugin, BytemdEditorContext, BytemdAction } from 'bytemd'
 import { HIGHLIGHT_ICON } from './icons'
 import en from '../locales/en.json'
-import defaultHighlights from './highlights.json'
 import type { IBasicInfo, HighlightThemeOptions } from './types'
 
 /**
@@ -10,7 +9,10 @@ import type { IBasicInfo, HighlightThemeOptions } from './types'
 export default function highlightThemePlugin(options?: HighlightThemeOptions): BytemdPlugin {
   const styleId = options?.styleId || '__highlight-theme__'
   const locale = { ...en, ...options?.locale } as typeof en
-  const themeMap = (options?.highlights || defaultHighlights) as Record<string, string>
+  const themeMap = options?.highlights as Record<string, string>
+
+  if (!themeMap) throw new Error('No highlight theme found, please check your options.')
+
   const themeList = Object.keys(themeMap)
   const defaultHighlight = options?.defaultHighlight || themeList[0]
 
