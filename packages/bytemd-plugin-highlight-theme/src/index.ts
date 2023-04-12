@@ -1,30 +1,27 @@
 import type { BytemdPlugin, BytemdEditorContext, BytemdAction } from 'bytemd'
-import { IHighlightInfo } from './types'
-import { getDOM, setStyle } from './utils'
-import defaultHighlights from './highlights.json'
-import en from '../locales/en.json'
 import { HIGHLIGHT_ICON } from './icons'
-
-export interface HighlightThemeOptions {
-  locale?: Record<string, string>
-  highlights?: Record<string, string>
-  defaultHighlight?: string
-}
+import en from '../locales/en.json'
+import defaultHighlights from './highlights.json'
+import type { IBasicInfo, HighlightThemeOptions } from './types'
 
 /**
- * 切换代码高亮主题插件
+ * Highlight Theme Plugin
  */
 export default function highlightThemePlugin(options?: HighlightThemeOptions): BytemdPlugin {
+  const styleId = options?.styleId || '__highlight-theme__'
   const locale = { ...en, ...options?.locale } as typeof en
-  const STYLE_ID = 'highlight-theme' // id of <style> tag
-  const highlights = options?.highlights || defaultHighlights
-  const highlightList = Object.keys(highlights) as THighlightKey[]
-  const DEFAULT_HIGHLIGHT = (options?.defaultHighlight || highlightList[0]) as THighlightKey
+  const themeMap = (options?.highlights || defaultHighlights) as Record<string, string>
+  const themeList = Object.keys(themeMap)
+  const defaultHighlight = options?.defaultHighlight || themeList[0]
 
-  type THighlightKey = keyof typeof highlights
+  if (!themeList.length) throw new Error('No highlight theme found, please check your options.')
+  if (!themeList.includes(defaultHighlight))
+    throw new Error(
+      `Invalid default highlight theme: ${defaultHighlight}, please check your options.`
+    )
 
-  const highlightInfo: IHighlightInfo = {
-    highlight: '' as THighlightKey,
+  const info: IBasicInfo = {
+    data: '',
     status: 0,
     position: {
       start: {
@@ -40,41 +37,34 @@ export default function highlightThemePlugin(options?: HighlightThemeOptions): B
     }
   }
 
-  const setHighlightStyle = (id: string) => setStyle.bind(null, getDOM(id))
+  const updateStyle = (styleCode: string) => {
+    const d = document.querySelector(`#${styleId}`) || document.createElement('style')
+    d.setAttribute('id', styleId)
+    document.head.appendChild(d)
+    d.innerHTML = styleCode
+  }
 
-  function highlightActionFactory(highlight: THighlightKey): BytemdAction {
-    return {
-      title: highlight,
-      handler: {
-        type: 'action',
-        click: ({ editor }: BytemdEditorContext) => {
-          const v = editor.getValue()
-          const { start, end } = highlightInfo.position
-          const frontmatter = v.slice(start.offset, end.offset)
+  const highlightActionFactory = (highlight: string): BytemdAction => ({
+    title: highlight,
+    handler: {
+      type: 'action',
+      click: ({ editor }: BytemdEditorContext) => {
+        const v = editor.getValue()
+        const { start, end } = info.position
+        const frontmatter = v.slice(start.offset, end.offset)
 
-          // 无 frontmatter
-          if (highlightInfo.status === 0) {
-            const newFrontmatter = `---\nhighlight: ${highlight}\n---\n`
-            editor.setValue(newFrontmatter + v)
-          }
+        const newFrontmatter =
+          info.status === 0
+            ? `---\nhighlight: ${highlight}\n---\n`
+            : info.status === 1
+            ? frontmatter.replace('---', `---\nhighlight: ${highlight}`)
+            : frontmatter.replace(info.data, highlight)
 
-          // 有 frontmatter 但是没有 highlight 字段
-          if (highlightInfo.status === 1) {
-            const newFrontmatter = frontmatter.replace('---', `---\nhighlight: ${highlight}`)
-            editor.setValue(v.replace(frontmatter, newFrontmatter))
-          }
-
-          // 有 frontmatter 有 highlight 字段
-          if (highlightInfo.status === 2) {
-            const newFrontmatter = frontmatter.replace(highlightInfo.highlight, highlight)
-            editor.setValue(v.replace(frontmatter, newFrontmatter))
-          }
-
-          editor.focus()
-        }
+        editor.setValue(v.replace(frontmatter, newFrontmatter))
+        editor.focus()
       }
     }
-  }
+  })
 
   return {
     actions: [
@@ -83,43 +73,47 @@ export default function highlightThemePlugin(options?: HighlightThemeOptions): B
         icon: HIGHLIGHT_ICON,
         handler: {
           type: 'dropdown',
-          actions: [...highlightList.map((highlight) => highlightActionFactory(highlight))]
+          actions: [...themeList.map((highlight) => highlightActionFactory(highlight))]
         }
       }
     ],
-    remark(processor) {
-      // 由 frontmatter 插件解析 frontmatter
+    remark: (processor) =>
       // @ts-ignore
-      return processor.use(() => (tree, file) => {
-        // 当前未添加 frontmatter 块 则直接返回 使用默认主题
+      processor.use(() => (tree, file) => {
+        const styleCode = themeMap[defaultHighlight] || ''
+
+        // no frontmatter block, return directly and use default theme
         if (!file.frontmatter) {
-          setHighlightStyle(STYLE_ID)(highlights[DEFAULT_HIGHLIGHT])
-          highlightInfo.status = 0
+          updateStyle(styleCode)
+          info.status = 0
           return
         }
 
-        // 获取 frontmatter 块的位置并保存到全局变量中
+        // get position of frontmatter block and save it to global variable
         const { start, end } = tree.children[0].position
-        highlightInfo.position = { start, end }
+        info.position = { start, end }
 
         const { highlight } = file.frontmatter as {
-          highlight?: THighlightKey
+          highlight?: string
         }
 
-        // 有 frontmatter 块但是没有 theme 字段 则使用默认主题
+        // no theme field, use default theme
         if (!highlight) {
-          setHighlightStyle(STYLE_ID)(highlights[DEFAULT_HIGHLIGHT])
-          highlightInfo.status = 1
+          updateStyle(styleCode)
+          info.status = 1
           return
         }
 
-        // 有 theme 字段 则设置主题样式
-        if (highlightList.includes(highlight)) {
-          setHighlightStyle(STYLE_ID)(highlights[highlight])
-          highlightInfo.highlight = highlight
-          highlightInfo.status = 2
+        // use theme field if it exists
+        if (themeList.includes(highlight)) {
+          updateStyle(themeMap[highlight])
+          info.data = highlight
+          info.status = 2
+          return
         }
+
+        // theme field is invalid
+        throw new Error(`Invalid highlight theme: ${highlight}, please check your options.`)
       })
-    }
   }
 }

@@ -4,16 +4,41 @@ interface IPosition {
   offset: number
 }
 
-interface IBlockPosition {
-  start: IPosition
-  end: IPosition
+export interface IBasicInfo {
+  /**
+   * current active theme
+   */
+  data: string
+  /**
+   * 0: no frontmatter
+   * 1: no frontmatter.highlight
+   * 2: has frontmatter.highlight
+   */
+  status: 0 | 1 | 2
+  /**
+   * position of frontmatter block in markdown body
+   */
+  position: {
+    start: IPosition
+    end: IPosition
+  }
 }
 
-interface IBasicInfo {
-  status: 0 | 1 | 2 // 0: 无 frontmatter 1: 有 frontmatter 无 theme 字段 2: 有 frontmatter 有 theme 字段
-  position: IBlockPosition
-}
-
-export interface IHighlightInfo extends IBasicInfo {
-  highlight: string
+export interface HighlightThemeOptions {
+  /**
+   * Highlight theme map
+   */
+  highlights?: Record<string, string>
+  /**
+   * Locale
+   */
+  locale?: Record<string, string>
+  /**
+   * Default highlight
+   */
+  defaultHighlight?: string
+  /**
+   * id of style element inserted into <head>
+   */
+  styleId?: string
 }
