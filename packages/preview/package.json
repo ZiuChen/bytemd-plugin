@@ -11,6 +11,7 @@
     "@bytemd/vue-next": "^1.21.0",
     "@ziuchen/bytemd-plugin-align": "workspace:^",
     "@ziuchen/bytemd-plugin-highlight-theme": "workspace:^",
+    "@ziuchen/bytemd-plugin-image-zoom": "workspace:^",
     "highlight.js": "^11.7.0",
     "vue": "^3.2.47"
   },

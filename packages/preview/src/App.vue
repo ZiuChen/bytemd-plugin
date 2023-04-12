@@ -13,6 +13,7 @@ import highlightPlugin from '@bytemd/plugin-highlight'
 import alignPlugin from '~/bytemd-plugin-align/src'
 import highlightThemePlugin from '~/bytemd-plugin-highlight-theme/src'
 import hls from '@ziuchen/bytemd-plugin-highlight-theme/dist/highlights.json'
+import imageZoomPlugin from '@ziuchen/bytemd-plugin-image-zoom'
 
 const plugins = [
   frontmatterPlugin(),
@@ -21,7 +22,8 @@ const plugins = [
   highlightThemePlugin({
     highlights: hls,
     defaultHighlight: 'github'
-  })
+  }),
+  imageZoomPlugin()
 ]
 const code = ref(article)
 

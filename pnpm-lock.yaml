@@ -66,6 +66,12 @@ importers:
         specifier: ^1.20.2
         version: 1.21.0
 
+  packages/bytemd-plugin-image-zoom:
+    dependencies:
+      bytemd:
+        specifier: ^1.20.2
+        version: 1.21.0
+
   packages/preview:
     dependencies:
       '@bytemd/plugin-frontmatter':
@@ -83,6 +89,9 @@ importers:
       '@ziuchen/bytemd-plugin-highlight-theme':
         specifier: workspace:^
         version: link:../bytemd-plugin-highlight-theme
+      '@ziuchen/bytemd-plugin-image-zoom':
+        specifier: workspace:^
+        version: link:../bytemd-plugin-image-zoom
       bytemd:
         specifier: ^1.21.0
         version: 1.21.0
