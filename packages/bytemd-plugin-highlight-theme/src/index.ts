@@ -9,7 +9,7 @@ import type { IBasicInfo, HighlightThemeOptions } from './types'
 export default function highlightThemePlugin(options?: HighlightThemeOptions): BytemdPlugin {
   const styleId = options?.styleId || '__highlight-theme__'
   const locale = { ...en, ...options?.locale } as typeof en
-  const themeMap = options?.highlights as Record<string, string>
+  const themeMap = options?.highlights
 
   if (!themeMap) throw new Error('No highlight theme found, please check your options.')
 
