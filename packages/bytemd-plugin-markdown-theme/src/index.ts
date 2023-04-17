@@ -86,6 +86,19 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
         if (!file.frontmatter) {
           updateStyle(styleCode)
           info.status = 0
+          // reset position
+          info.position = {
+            start: {
+              line: 0,
+              column: 0,
+              offset: 0
+            },
+            end: {
+              line: 0,
+              column: 0,
+              offset: 0
+            }
+          }
           return
         }
 
