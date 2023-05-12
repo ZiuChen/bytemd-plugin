@@ -16,6 +16,7 @@ import hls from '@ziuchen/bytemd-plugin-highlight-theme/dist/highlights.json'
 import imageZoomPlugin from '@ziuchen/bytemd-plugin-image-zoom'
 import markdownThemePlugin from '~/bytemd-plugin-markdown-theme/src'
 import themes from '~/bytemd-plugin-markdown-theme/dist/themes.json'
+import exportPlugin from '~/bytemd-plugin-export/src'
 
 const plugins = [
   frontmatterPlugin(),
@@ -23,12 +24,13 @@ const plugins = [
   alignPlugin(),
   highlightThemePlugin({
     highlights: hls,
-    defaultHighlight: 'github'
+    defaultHighlight: 'atom-one-dark'
   }),
   imageZoomPlugin(),
   markdownThemePlugin({
     themes
-  })
+  }),
+  exportPlugin()
 ]
 const code = ref(article)
 

@@ -1,0 +1,8 @@
+{
+  "export": "Export",
+  "exportMarkdown": "Export Markdown",
+  "exportHtml": "Export HTML",
+  "exportPdf": "Export PDF",
+  "exportPng": "Export PNG",
+  "exportDocx": "Export DOCX"
+}

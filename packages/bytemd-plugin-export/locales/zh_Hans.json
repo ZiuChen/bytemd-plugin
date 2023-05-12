@@ -1,0 +1,8 @@
+{
+  "export": "导出",
+  "exportMarkdown": "导出为 Markdown",
+  "exportHtml": "导出为 HTML",
+  "exportPdf": "导出为 PDF",
+  "exportPng": "导出为 PNG",
+  "exportDocx": "导出为 DOCX"
+}

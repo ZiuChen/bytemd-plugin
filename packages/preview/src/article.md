@@ -1,5 +1,3 @@
-# Hello, ByteMD!
-
 ```ts
 class Person {
   name: string
