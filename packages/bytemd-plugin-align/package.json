@@ -5,6 +5,11 @@
   "description": "ByteMD plugin to support align type",
   "license": "MIT",
   "author": "ZiuChen",
+  "type": "module",
+  "scripts": {
+    "build": "rolldown -c",
+    "dev": "rolldown --watch -c"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ZiuChen/bytemd-plugin.git",
