@@ -15,6 +15,7 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
 
   const themeList = Object.keys(themeMap)
   const defaultTheme = options?.defaultTheme || themeList[0]
+  const defaultDarkTheme = options?.defaultDarkTheme || themeList[0]
 
   if (!themeList.length) throw new Error('No markdown theme found, please check your options.')
   if (!themeList.includes(defaultTheme))
@@ -22,7 +23,7 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
 
   const info: IBasicInfo = {
     data: '',
-    status: 0,
+    status: 'no-frontmatter',
     position: {
       start: {
         line: 0,
@@ -38,10 +39,19 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
   }
 
   const updateStyle = (styleCode: string) => {
-    const d = document.querySelector(`#${styleId}`) || document.createElement('style')
-    d.setAttribute('id', styleId)
-    document.head.appendChild(d)
-    d.innerHTML = styleCode
+    const _style = document.querySelector(`#${styleId}`)
+    if (_style) {
+      _style.innerHTML = styleCode
+      return
+    }
+
+    // create a new style element if not exists
+    const style = document.createElement('style')
+    style.setAttribute('id', styleId)
+    style.setAttribute('type', 'text/css')
+    style.setAttribute('data-theme-name', info.data)
+    document.head.appendChild(style)
+    style.innerHTML = styleCode
   }
 
   const themeActionFactory = (theme: string): BytemdAction => ({
@@ -54,9 +64,9 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
         const frontmatter = v.slice(start.offset, end.offset)
 
         const newFrontmatter =
-          info.status === 0
+          info.status === 'no-frontmatter'
             ? `---\ntheme: ${theme}\n---\n`
-            : info.status === 1
+            : info.status === 'no-frontmatter-theme'
             ? frontmatter.replace('---', `---\ntheme: ${theme}`)
             : frontmatter.replace(info.data, theme)
 
@@ -65,6 +75,38 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
       }
     }
   })
+
+  let isDark = document.body.classList.contains('dark')
+
+  // Watch for dark mode changes
+  // Use MutationObserver to watch for dark mode changes
+  const observer = new MutationObserver(() => {
+    console.log('dark mode changed')
+    const darkMode = document.body.classList.contains('dark')
+    if (darkMode !== isDark) {
+      isDark = darkMode
+      refreshStyle()
+    }
+  })
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+  })
+
+  const refreshStyle = () => {
+    console.log('refreshStyle', info, isDark)
+    if (info.status === 'no-frontmatter' || info.status === 'no-frontmatter-theme') {
+      // use default theme if no frontmatter or no theme field
+      const styleCode = themeMap[isDark ? defaultDarkTheme : defaultTheme] || ''
+      updateStyle(styleCode)
+      return
+    }
+
+    // use frontmatter theme if exists
+    const styleCode = themeMap[info.data] || ''
+    updateStyle(styleCode)
+  }
 
   return {
     actions: [
@@ -77,15 +119,16 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
         }
       }
     ],
+    viewerEffect: () => {
+      refreshStyle()
+    },
     remark: (processor) =>
       // @ts-ignore
       processor.use(() => (tree, file) => {
-        const styleCode = themeMap[defaultTheme] || ''
-
         // no frontmatter block, return directly and use default theme
         if (!file.frontmatter) {
-          updateStyle(styleCode)
-          info.status = 0
+          info.status = 'no-frontmatter'
+          refreshStyle()
           // reset position
           info.position = {
             start: {
@@ -112,16 +155,16 @@ export default function markdownThemePlugin(options?: MarkdownThemeOptions): Byt
 
         // no theme field, use default theme
         if (!theme) {
-          updateStyle(styleCode)
-          info.status = 1
+          info.status = 'no-frontmatter-theme'
+          refreshStyle()
           return
         }
 
         // use theme field if it exists
         if (themeList.includes(theme)) {
-          updateStyle(themeMap[theme])
           info.data = theme
-          info.status = 2
+          info.status = 'has-frontmatter-theme'
+          refreshStyle()
           return
         }
 
