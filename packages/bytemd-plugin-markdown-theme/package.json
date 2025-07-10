@@ -1,7 +1,7 @@
 {
   "name": "@ziuchen/bytemd-plugin-markdown-theme",
   "private": false,
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "ByteMD plugin to support custom markdown theme",
   "license": "MIT",
   "author": "ZiuChen",
