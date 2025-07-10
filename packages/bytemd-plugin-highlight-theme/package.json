@@ -1,7 +1,7 @@
 {
   "name": "@ziuchen/bytemd-plugin-highlight-theme",
   "private": false,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "ByteMD plugin to support custom code highlight theme",
   "license": "MIT",
   "author": "ZiuChen",
